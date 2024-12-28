@@ -1,16 +1,18 @@
-# Base image
-FROM python:3.9-slim
+# Use a lightweight Node.js image
+FROM node:16-alpine
 
-# Set working directory
-WORKDIR /app
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy package.json and install dependencies
+COPY package.json ./
+RUN npm install
 
-# Copy application code
+# Copy the application code
 COPY . .
 
-# Expose port and start the app
-EXPOSE 5000
-CMD ["python", "app.py"]
+# Expose the application port
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
